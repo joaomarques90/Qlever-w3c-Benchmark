@@ -4,7 +4,7 @@ W3C tests for Qlever
 
  ** under construction ***
 
-Repositories needed:
+»»» Repositories needed:
 
 https://github.com/ad-freiburg/qlever/
 
