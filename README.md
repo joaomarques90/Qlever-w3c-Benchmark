@@ -11,7 +11,7 @@ https://github.com/ad-freiburg/qlever/
 https://github.com/w3c/rdf-tests/tree/main/sparql11
 
 
-
+_________________________________________________________________________________
 
 
 w3c_sparql1.1_benchmarking.py argument list:
@@ -29,6 +29,8 @@ To build the index, it currently uses the config on e2e/e2e-build-settings.json,
   "parser-batch-size" : 1000,
   "ascii-prefixes-only":false
 }
+
+_________________________________________________________________________________
 
 For each test, it builds the index, runs the server and sends the query. After it, it terminates the server and starts over again (new test).
 
