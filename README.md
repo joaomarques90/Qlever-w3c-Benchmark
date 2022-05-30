@@ -22,7 +22,7 @@ w3c_sparql1.1_benchmarking.py argument list:
 
 
 
-To build the index, it currently uses the config on e2e/e2e-build-settings.json, which is:
+To build the required index for a test, it currently uses the config on e2e/e2e-build-settings.json, which is:
 
 {
   "num-triples-per-batch" : 40000,
