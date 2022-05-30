@@ -9,13 +9,13 @@ https://github.com/ad-freiburg/qlever/
 https://github.com/w3c/rdf-tests/tree/main/sparql11
 
 
-w3c_sparql1.1_benchmarking.py
-
-Argument list:
+w3c_sparql1.1_benchmarking.py argument list:
 
 [0] <w3c_manifests_folders_path (rdf-tests)> 
 
 [1] <Qlever_binary_path>
+
+
 
 To build the index, it currently uses the config on e2e/e2e-build-settings.json, which is:
 
