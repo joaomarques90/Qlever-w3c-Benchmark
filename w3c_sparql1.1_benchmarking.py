@@ -3,6 +3,9 @@
 QLever W3C-tests Parser Tool
 """
 
+# /mnt/c/Users/Joao/Desktop/Mestrado/ERASMUS/Winter Semester/git_ad_freiburg_qlever/qlever-code/
+# /mnt/c/Users/Joao/Desktop/Mestrado/ERASMUS/Winter Semester/git_joaomarques_qlever/qlever/
+
 import glob
 import json
 import os
@@ -1171,17 +1174,7 @@ if __name__ == '__main__':
     # Save original working directory
     originalWorkDir = os.getcwd()
 
-    # Create benchmark directory and change current work directory to that new one
-    if not os.path.exists(_qlever_binary + "build/benchmark/"):
-        os.mkdir(_qlever_binary + "build/benchmark/")
-    os.chdir(_qlever_binary + "build/benchmark/")
-    currentWorkDir = os.getcwd()
-
-    print("originalWorkDir = " + originalWorkDir)
-    print("currentWorkDir = " + currentWorkDir)
-
-    total_tests = 0
-
+    # Build QLEVER if not yet build
     build = os.path.exists(_qlever_binary + "build/")
     if not build:
         os.mkdir(_qlever_binary + "build/")
@@ -1209,6 +1202,17 @@ if __name__ == '__main__':
         os.chdir(_qlever_binary + "build/benchmark")
         currentWorkDir = os.getcwd()
         print("currentWorkDir = " + currentWorkDir, "\n")
+
+    # Create benchmark directory and change current work directory to that new one
+    if not os.path.exists(_qlever_binary + "build/benchmark/"):
+        os.mkdir(_qlever_binary + "build/benchmark/")
+    os.chdir(_qlever_binary + "build/benchmark/")
+    currentWorkDir = os.getcwd()
+
+    print("originalWorkDir = " + originalWorkDir)
+    print("currentWorkDir = " + currentWorkDir)
+
+    total_tests = 0
 
     '''
         **** Execute all parsed manifest-tests (Main Loop) ****
