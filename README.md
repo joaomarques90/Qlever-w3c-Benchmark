@@ -2,7 +2,11 @@
 W3C tests for Qlever
 
 
-(under construction)
+ ** under construction ***
+
+Repositories needed:
+https://github.com/ad-freiburg/qlever/
+https://github.com/w3c/rdf-tests/tree/main/sparql11
 
 
 w3c_sparql1.1_benchmarking.py
