@@ -35,5 +35,6 @@ ________________________________________________________________________________
 For each test, it builds the index, runs the server and sends the query. After it, it terminates the server and starts over again (new test).
 
 While running, it creates the log file (log_output.txt) in the main project folder.
+
 The temporary index files (afterwards deleted) and test-results are currently being placed in "Qlever_binary_path/build/benchmark"
 
