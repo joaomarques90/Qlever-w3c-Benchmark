@@ -11,6 +11,7 @@ import json
 import os
 import platform
 import re
+import signal
 import socket
 import subprocess
 import sys
@@ -18,13 +19,17 @@ import time
 import urllib
 import urllib.parse
 import urllib.request
+import io
+
 from pathlib import Path
 from typing import TextIO, Dict, Any
-
-import jsoncomparison #  python3.XX -m pip install -U pip jsoncomparison
+import jsoncomparison  # python3.XX -m pip install -U pip jsoncomparison
 import requests
 import yaml
+
 from bs4 import BeautifulSoup  # apt-get install python3-bs4
+from requests.adapters import HTTPAdapter, Retry
+
 
 # return True if line is fully commented or empty
 def ignore_line(linha: str) -> bool:
@@ -927,7 +932,7 @@ def parse_manifest(manifest_file_path: str, manifest_file_fp: TextIO) -> [dict]:
                 notable = True  # implications ???
 
             if test['feature']:
-                feature = True # implications ???
+                feature = True  # implications ???
 
             if test['actions'] == ['[]'] or test['actions'] == []:
                 option = 11  # HTTP  --------------------------------------
@@ -1079,13 +1084,32 @@ def exec_query(endpoint_url: str, sparql: str, action,
     params = urllib.parse.urlencode({'query': sparql, 'send': max_send, 'action': action})
     url_suffix = '/?' + params
 
-    print("exec_query = " + endpoint_url + url_suffix)
+    print("exec_query = " + endpoint_url + url_suffix, flush=True)
 
-    response = requests.get(endpoint_url + url_suffix)
+    headers = {"User-Agent": "Mozilla/5.0"}
+    # headers = {'Connection': 'close'}
+    flag_passed = False
+    while not flag_passed:
+        try:
+            s = requests.Session()
+            retries = Retry(total=5,
+                            backoff_factor=0.1,
+                            status_forcelist=[500, 502, 503, 504])
+            s.mount('http://', HTTPAdapter(max_retries=retries))
+
+            response = s.get(url=endpoint_url + url_suffix, headers=headers, timeout=60)
+            flag_passed = True
+        except Exception as e:
+            print(str(e))
+            time.sleep(1)
+            requests.session().close()
+
     print("response_reason = " + response.reason)
     print("response_statusCode = ", response.status_code)
-    responseJSON = response.json()
-    print("response_json = " + json.dumps(responseJSON))
+    # responseJSON = response.json()
+    # print("response_json = " + json.dumps(responseJSON), "\n", flush=True)
+    # print("response_text = " + response.text, "\n", flush=True)
+    requests.session().close()
     return response
 
 
@@ -1111,6 +1135,7 @@ ls | grep 'data'
 
 '''
 
+
 # defines what files in what directories to open
 def must_open(dirnames, filename):
     if filename == 'manifest.ttl':
@@ -1131,6 +1156,12 @@ def opened_files(*args):
                     yield filepath, open(filepath, "r")
 
 
+def enqueue_output(out, queue):
+    for line in iter(out.readline, b''):
+        queue.put(line)
+    out.close()
+
+
 if __name__ == '__main__':
     print("\nPython {:s} on {:s}\n".format(sys.version, platform.platform()))
     print('Number of arguments:', len(sys.argv), 'arguments.')
@@ -1145,7 +1176,6 @@ if __name__ == '__main__':
     #                 '/mnt/c/Users/Joao/Desktop/Mestrado/ERASMUS/Winter Semester/git_joaomarques_qlever/qlever/']
 
     _manifests_dir = sys.argv[1]
-
     _qlever_binary = sys.argv[2]
     endpoint = 'http://localhost:9099'  # »» the endpoint port user-defined ««
 
@@ -1212,7 +1242,14 @@ if __name__ == '__main__':
     print("originalWorkDir = " + originalWorkDir)
     print("currentWorkDir = " + currentWorkDir)
 
-    total_tests = 0
+    total_tests = total_tests_tmp = 0
+
+    for parsed_manifest in parsed_tests_map:
+        for test in parsed_manifest:
+            total_tests_tmp += 1
+
+    print("\n\t »»»»» Total expected tests = " + str(total_tests_tmp), "\n")
+
 
     '''
         **** Execute all parsed manifest-tests (Main Loop) ****
@@ -1226,16 +1263,53 @@ if __name__ == '__main__':
             print("*************************************************************************************************\n")
             print("\t »»» Current Test # ", total_tests, " =", str(test), "\n")
 
-            # $$$$$$$$$$$$$$$$$$$$$$$$$ Filter by jsonres-test $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$   !!!!!
-            # if 'jsonres' not in actualTestName:
-            #    continue
 
-            # $$$$$$$$$$$$$$$$$$$$$$$$$ Filter by QueryEvaluationTest-test $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$   !!!!!
             test_type = test['type']
             type_name = list(test_type.values())[0]
             print("type_name = ", type_name)
-            if type_name not in 'mf:QueryEvaluationTest':
+            print("Test Action = ", str(test['actions']))
+            print("Test Result = ", str(test['result']), "\n")
+
+            request_not_empty = False
+            flag_graph = False
+
+            if len(test['actions']) == 0 or test['actions'] == '[]':
+                print("Empty action")
+                if len(test['request']) == 0:
+                    continue
+                else:
+                    print("HTTP test")
+                    print("\t>> Request-HTTP: ", test['request'])
+
+            for index2, entry in enumerate(test['result']):
+                if flag_graph:
+                    break
+                for name in entry:
+                    if 'graph' in name:
+                        flag_graph = True
+                        break
+            if flag_graph:
+                print("result uses \'Graphs-data\' not supported by (current) Qlever\n")
                 continue
+
+            indexBuilderPos = -1
+
+            for index1, entry in enumerate(test['actions']):
+                for name in entry:
+                    if 'graph' in name:
+                        flag_graph = True
+                        break
+                    if 'data' in name:
+                        request_not_empty = True
+                        indexBuilderPos = index1
+            if not request_not_empty:
+                print("action does not have = \'data\'")
+                print("Possibly does not require any initial data (empty) for IndexBuilder {not supported}\n")
+                continue
+            elif flag_graph:
+                print("action uses \'Graphs-data\' not supported by (current) Qlever\n")
+                continue
+
 
             # parsedActions = test['parsed_actions']
             # parsedResults = test['parsed_results']
@@ -1248,7 +1322,7 @@ if __name__ == '__main__':
             indexBuilderCommand = './../IndexBuilderMain -l -i ' \
                                   + actualTestName + \
                                   ' -F ttl ' + \
-                                  '-f ' + test['dir'] + "/" + test['actions'][1][1][1:-1] + \
+                                  '-f ' + test['dir'] + "/" + test['actions'][indexBuilderPos][1][1:-1] + \
                                   ' -s ' + _qlever_binary.replace(' ', '\ ') \
                                   + 'e2e/e2e-build-settings.json'  # generic build settings
 
@@ -1269,7 +1343,7 @@ if __name__ == '__main__':
             # Check output/error/exit_code
             if exit_code != 0:
                 print("Error! indexBuilderProcess exit_code = " + str(exit_code) + "\n")  # Big Error
-                break
+                continue
             else:
                 print("indexBuilderProcess finished properly, continuing...\n")
 
@@ -1278,24 +1352,35 @@ if __name__ == '__main__':
             '''
             serverCommand = './../ServerMain -i ' + actualTestName + ' -p 9099 -m 1'
             print("serverCommand = " + serverCommand + "\n")
+
             serverProcess = subprocess.Popen(serverCommand, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            serverActive = False
+            os.set_blocking(serverProcess.stdout.fileno(), False)
 
             # Connect to Server
+            serverActive = False
             while not serverActive:
                 a_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 location = ("", 9099)
                 connection_check = a_socket.connect_ex(location)
                 if connection_check == 0:
                     print("Port is open")
+                    a_socket.close()
                     break
                 else:
                     print("Port is not open")
                 a_socket.close()
                 print("Server not reached: new try in 3 seconds....")
-                time.sleep(3)  # Sleep 3 seconds
+                time.sleep(.5)  # Sleep 0.5 seconds
 
-            query_sparql = test['dir'] + "/" + test['actions'][0][1][1:-1]
+
+            # select the right entry-position
+            query_index = -1
+            if indexBuilderPos == 0:
+                query_index = 1
+            else:
+                query_index = 0
+
+            query_sparql = test['dir'] + "/" + test['actions'][query_index][1][1:-1]
 
             # Option A: Open One Request/Query File (if exists! -> query NOT EXPLICIT in manifest but pointed to a file)
             # Option B: HTTP-tests (query EXPLICIT in manifest) --> https://zetcode.com/python/getpostrequest/
@@ -1312,22 +1397,42 @@ if __name__ == '__main__':
                 print("\nAscii Request_data: " + ascii(data))
                 print("Endpoint = " + endpoint)
 
-                expected_file_data = test['dir'] + "/" + test['result'][0][1:-1]
-                file_result_suffix = expected_file_data[expected_file_data.rfind('.')+1:]
+                if isinstance(test['result'], list) and len(test['result']) == 1:
+                    expected_file_data = test['dir'] + "/" + test['result'][0][0][1:-1]
+                else:
+                    expected_file_data = test['dir'] + "/" + test['result'][0][1:-1]
+
+                file_result_suffix = expected_file_data[expected_file_data.rfind('.') + 1:]
                 print("expected_result_file_data path = " + expected_file_data)
 
                 if ".srj" in expected_file_data:
                     server_action = "sparql_json_export"
                 elif ".srx" in expected_file_data:
                     server_action = "sparql_json_export"
+                elif ".ttl" in expected_file_data:
+                    server_action = "sparql_json_export"
+                elif ".csv" in expected_file_data:
+                    server_action = "csv_export"
+                elif ".tsv" in expected_file_data:
+                    server_action = "tsv_export"
                 else:
+                    1 == 1
                     print("\t »» expected_file_data suffix = **ELSE**")
                     server_action = "sparql_json_export"
 
                 print("Action = " + server_action)
 
                 # result = exec_query(endpoint_url=endpoint, sparql=ascii(data), action=server_action)
+                sys.stdout.flush()
                 result = exec_query(endpoint_url=endpoint, sparql=data, action=server_action)
+
+                # update the test with the server-response
+                test.update({"server-response": {result.reason, result.status_code, result.text}})
+
+                time.sleep(.3)  # Wait 0.3 second for the Server to flush all STD_OUT/STD_ERR/STD_WRN
+
+                print("server_answer = ", result.text, flush=True)
+
 
                 errorTrace = None
                 if server_action == "sparql_json_export":
@@ -1347,7 +1452,7 @@ if __name__ == '__main__':
                     # Options 1,2,3,...
 
                     if file_result_suffix == "srj":
-                        ### Compare JSONs:
+                        ### Compare JSONs:   --> BNODES (!!)
                         with open(expected_file_data, 'r') as expected:
                             data_expected = expected.read()
                             data_expected = json.loads(data_expected)
@@ -1371,48 +1476,64 @@ if __name__ == '__main__':
                 elif server_action == "turtle_export":
                     1 == 1
                     print("\t »» server_action = turtle_export")
-                elif server_action == "csv_export":
-                    1 == 1
-                    print("\t »» server_action = csv_export")
-                elif server_action == "tsv_export":
-                    1 == 1
-                    print("\t »» server_action = tsv_export")
+                elif server_action == "csv_export" or server_action == "tsv_export":
+                    print("\t »» server_action = ", server_action)
+                    with open(expected_file_data, 'r') as t1:
+                        # , open(result.text, 'r') as t2:
+                        fileone = t1.readlines()
+                        # filetwo = t2.readlines()
+
+                    buf = io.StringIO(result.text)
+
+                    if server_action == "csv_export":
+                        file_output = "compare_" + actualTestName + ".csv"
+                    else:
+                        file_output = "compare_" + actualTestName + ".tsv"
+                    with open(file_output, 'w') as outFile:
+                        for line in fileone:
+                            if line not in buf.readline():
+                                outFile.write(line)
+
                 else:
                     1 == 1
                     print("\t »» server_action = **ELSE**")
 
+            result.close()
 
             '''
                 **** Terminate the Server and catch all output ****
             '''
-            print("Terminating the server...")
-            # serverProcess.terminate()
-            serverProcess.kill()
-            # import signal
-            # os.killpg(os.getpgid(serverProcess.pid), signal.SIGTERM)  # Send the signal to all the process groups
+            print("\nTerminating the server...\n")
+            # Read the OUTPUT from Server
+            sys.stdout.flush()
+            start = time.time()
+            while True:
+                for i in range(2):
+                    line = serverProcess.stdout.readline()
+                    if len(line):
+                        print(line)
+                    # time.sleep(0.5)
+                if time.time() > start + 2:
+                    break
 
-            '''
-            print("Server_stdout:")
-            for line in serverProcess.stdout:
-                print(line)
-            '''
+            serverProcess.terminate()
+
             # Wait until process terminates
             while serverProcess.poll() is None:
                 time.sleep(0.5)
-            # print("Reading server output/error...")
-            # import signal
-            # os.killpg(os.getpgid(serverProcess.pid), signal.SIGTERM)  # Send the signal to all the process groups
-            # output, error = serverProcess.communicate()
-            print("Server terminated!")
-            # print("Server Output: " + str(output))
-            # print("Server Error: " + str(error))
+            print("\nServer terminated!")
 
             # Delete Current-Index Files (Garbage)
             for filename in glob.glob(_qlever_binary + "/build/benchmark/" + actualTestName + "*"):
                 os.remove(filename)
 
+            # Delete Remaining Garbage
+            for filename in glob.glob(_qlever_binary + "/build/benchmark/*.disk"):
+                os.remove(filename)
+
+
     '''
-        After
+        After benchmark
     '''
 
     print("\nTOTAL manifests = " + str(len(parsed_tests_map)))
