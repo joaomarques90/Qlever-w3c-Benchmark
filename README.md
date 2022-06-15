@@ -13,6 +13,8 @@ W3C RDF-tests: https://github.com/w3c/rdf-tests/tree/main/sparql11
 Apache Jena Binary Distributions: https://jena.apache.org/download/index.cgi 
 _________________________________________________________________________________
 
+!! Apache Jena Binary Folder(s) must be in the same directory as this benchmark
+
 
 w3c_sparql1.1_benchmarking.py argument list:
 
