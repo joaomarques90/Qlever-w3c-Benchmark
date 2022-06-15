@@ -1156,12 +1156,6 @@ def opened_files(*args):
                     yield filepath, open(filepath, "r")
 
 
-def enqueue_output(out, queue):
-    for line in iter(out.readline, b''):
-        queue.put(line)
-    out.close()
-
-
 if __name__ == '__main__':
     print("\nPython {:s} on {:s}\n".format(sys.version, platform.platform()))
     print('Number of arguments:', len(sys.argv), 'arguments.')
@@ -1203,6 +1197,34 @@ if __name__ == '__main__':
 
     # Save original working directory
     originalWorkDir = os.getcwd()
+
+    # Check if Jena is available
+    jena_riot = None
+    for filename in glob.glob(originalWorkDir + "/apache-jena-*"):  # any version
+        if jena_riot:
+            break
+        if os.path.isdir(filename):
+            for filename2 in glob.glob(filename + "/*", recursive=True):  # list directories
+                if jena_riot:
+                    break
+                if os.path.basename(filename2) == 'bin' and os.path.isdir(filename2):  # bin folder in Level 1
+                    for filename3 in glob.glob(filename2 + "/riot"):
+                        if os.path.isfile(filename3):
+                            jena_riot = filename3
+                            break
+                elif os.path.isdir(filename2):
+                    for filename3 in glob.glob(filename2 + "/*"):  # bin folder in Level 2
+                        if jena_riot:
+                            break
+                        if os.path.basename(filename3) == 'bin' and os.path.isdir(filename3):
+                            for filename4 in glob.glob(filename3 + "/riot"):
+                                if os.path.isfile(filename4):
+                                    jena_riot = filename4
+                                    break
+    if jena_riot:
+        print("Jena Riot Package found at \'" + jena_riot + "\' \n")
+    else:
+        print("Jena Riot Package NOT FOUND !!\n")
 
     # Build QLEVER if not yet build
     build = os.path.exists(_qlever_binary + "build/")
@@ -1250,7 +1272,6 @@ if __name__ == '__main__':
 
     print("\n\t »»»»» Total expected tests = " + str(total_tests_tmp), "\n")
 
-
     '''
         **** Execute all parsed manifest-tests (Main Loop) ****
     '''
@@ -1263,7 +1284,6 @@ if __name__ == '__main__':
             print("*************************************************************************************************\n")
             print("\t »»» Current Test # ", total_tests, " =", str(test), "\n")
 
-
             test_type = test['type']
             type_name = list(test_type.values())[0]
             print("type_name = ", type_name)
@@ -1272,6 +1292,22 @@ if __name__ == '__main__':
 
             request_not_empty = False
             flag_graph = False
+            rdf_db = False
+
+            if 'serviceDescription' in test['type']:
+                print(
+                    "\t>> Service Description Tests require the external tool: https://www.w3.org/2009/sparql/sdvalidator")
+                print("\t\t https://github.com/kasei/sparql11-protocolvalidator")
+                print("Since it is assumed that the Protocol implementation provides support for all of SPARQL (1.0) "
+                      "and also SPARQL 1.1 Query/Update support for {Select expressions, CLEAR, DROP, LOAD} operations "
+                      "with the combination of Graph-Data, it is not supported by the current Qlever Engine")
+            elif 'GraphStoreProtocolTest' in test['type']:
+                print("\t>> GraphStoreProtocolTest consists of HTTP requests and expected responses")
+                print("\t>> However, these tests are used for update of the DB and retrieval of '.ttl' DB-file "
+                      "from the server, so none of them supported by the current Qlever Engine")
+            elif 'ProtocolTest' in test['type']:
+                print("\t>> Protocol Tests require the external tool: http://www.w3.org/2009/sparql/protocol_validator")
+                print("\t\t https://www.w3.org/TR/sparql11-service-description/#example")
 
             if len(test['actions']) == 0 or test['actions'] == '[]':
                 print("Empty action")
@@ -1280,6 +1316,7 @@ if __name__ == '__main__':
                 else:
                     print("HTTP test")
                     print("\t>> Request-HTTP: ", test['request'])
+                    print("\t>> Response-HTTP: ", test['response'])
 
             for index2, entry in enumerate(test['result']):
                 if flag_graph:
@@ -1292,16 +1329,21 @@ if __name__ == '__main__':
                 print("result uses \'Graphs-data\' not supported by (current) Qlever\n")
                 continue
 
+            # Parse W3C-test Index-data-input fields which are
+            # not always sorted the same way: {query, data} or {data, query}
+            # whose elements can also be a list of lists
             indexBuilderPos = -1
 
             for index1, entry in enumerate(test['actions']):
-                for name in entry:
+                for index2, name in enumerate(entry):
                     if 'graph' in name:
                         flag_graph = True
                         break
-                    if 'data' in name:
+                    if index2 == 0 and 'data' in name:
                         request_not_empty = True
-                        indexBuilderPos = index1
+                        indexBuilderPos = index1  # correct position of array (manifest can be not in order)
+                    if index2 == 1 and '.rdf' in name:
+                        rdf_db = True
             if not request_not_empty:
                 print("action does not have = \'data\'")
                 print("Possibly does not require any initial data (empty) for IndexBuilder {not supported}\n")
@@ -1310,21 +1352,76 @@ if __name__ == '__main__':
                 print("action uses \'Graphs-data\' not supported by (current) Qlever\n")
                 continue
 
-
             # parsedActions = test['parsed_actions']
             # parsedResults = test['parsed_results']
+
+            # For Database scan-tests:
             # concatInputFiles = test['concatInputFiles']
             # concatInputFiles = open(test['dir'] + "/" + test['actions'][1][1][1:-1], 'r').read()
 
-            ''' 
-                **** Mount Qlever-Index ****
-            '''
-            indexBuilderCommand = './../IndexBuilderMain -l -i ' \
-                                  + actualTestName + \
-                                  ' -F ttl ' + \
-                                  '-f ' + test['dir'] + "/" + test['actions'][indexBuilderPos][1][1:-1] + \
-                                  ' -s ' + _qlever_binary.replace(' ', '\ ') \
-                                  + 'e2e/e2e-build-settings.json'  # generic build settings
+
+            if rdf_db:  # transform rdf to turtle using apache-jena
+                # "converted_" + input_file + ".ttl"
+                if not jena_riot:
+                    print("ERROR!: Jena package needed to convert the IndexBuilder file for this test but it was not initially found")
+                    print("Consequently, the test cannot proceed")
+                    test.update({"Jena": {"Jena Required and Not Found! (failed execution)"}})
+                    continue
+                jena_outputFile = currentWorkDir.replace(' ', '\ ') + "/converted_" + test['actions'][indexBuilderPos][1][1:-5] + ".ttl"
+                jenaCommand = jena_riot.replace(' ', '\ ') + ' --out=turtle ' + test['dir'] + "/" + \
+                              test['actions'][indexBuilderPos][1][1:-1] + ' > ' + jena_outputFile
+                # jenaProcess = subprocess.Popen(jenaCommand, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                print("jena_outputFile", jena_outputFile)
+                print("jenaCommand", jenaCommand)
+
+                exit_code = os.system(jenaCommand)
+
+                '''
+                    (Self-)Terminate jenaProcess
+                '''
+                '''
+                output, error = jenaProcess.communicate()
+                if output:
+                    print("\nSubProcess output = " + str(output))
+                if error:
+                    print("SubProcess error = " + str(error))
+                exit_code = jenaProcess.wait()  # Wait until the jenaProcess finishes
+                '''
+                # Check output/error/exit_code
+                if exit_code != 0:
+                    print("Error! jenaProcess exit_code = " + str(exit_code) + "\n")  # Error
+                    test.update({"jenaProcess": {exit_code}})
+                    # test.update({"jenaProcess": {output, error, exit_code}})
+                    continue
+
+                print("jenaProcess finished properly, continuing...\n")
+
+                time.sleep(0.5)
+                with open(jena_outputFile.replace('\ ',' '), 'r') as file:
+                    data = file.read()
+                    test.update({"jenaConvertedFile": {str(data)}})
+                # test.update({"jenaConvertedFile": {str(output.decode())}})
+                print("jenaConvertedFile = ", test['jenaConvertedFile'])
+
+                ''' 
+                    **** Mount Qlever-Index With Jena File****
+                '''
+                indexBuilderCommand = './../IndexBuilderMain -l -i ' \
+                                      + actualTestName + \
+                                      ' -F ttl ' + \
+                                      '-f ' + jena_outputFile + \
+                                      ' -s ' + _qlever_binary.replace(' ', '\ ') \
+                                      + 'e2e/e2e-build-settings.json'  # generic build settings
+            else:
+                ''' 
+                    **** Mount Qlever-Index (Default) ****
+                '''
+                indexBuilderCommand = './../IndexBuilderMain -l -i ' \
+                                      + actualTestName + \
+                                      ' -F ttl ' + \
+                                      '-f ' + test['dir'].replace(' ', '\ ') + "/" + test['actions'][indexBuilderPos][1][1:-1] + \
+                                      ' -s ' + _qlever_binary.replace(' ', '\ ') \
+                                      + 'e2e/e2e-build-settings.json'  # generic build settings
 
             print("indexBuilderCommand = " + indexBuilderCommand)
 
@@ -1342,10 +1439,12 @@ if __name__ == '__main__':
 
             # Check output/error/exit_code
             if exit_code != 0:
-                print("Error! indexBuilderProcess exit_code = " + str(exit_code) + "\n")  # Big Error
+                print("Error! indexBuilderProcess exit_code = " + str(exit_code) + "\n")  # Error
+                test.update({"indexBuilder": {output, error, exit_code}})
                 continue
             else:
                 print("indexBuilderProcess finished properly, continuing...\n")
+                test.update({"indexBuilder": {output, exit_code}})
 
             '''
                **** Launch Qlever-Server ****
@@ -1354,7 +1453,7 @@ if __name__ == '__main__':
             print("serverCommand = " + serverCommand + "\n")
 
             serverProcess = subprocess.Popen(serverCommand, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            os.set_blocking(serverProcess.stdout.fileno(), False)
+            os.set_blocking(serverProcess.stdout.fileno(), False)  # grab server-stdout without a blocking-read
 
             # Connect to Server
             serverActive = False
@@ -1372,7 +1471,6 @@ if __name__ == '__main__':
                 print("Server not reached: new try in 3 seconds....")
                 time.sleep(.5)  # Sleep 0.5 seconds
 
-
             # select the right entry-position
             query_index = -1
             if indexBuilderPos == 0:
@@ -1380,7 +1478,7 @@ if __name__ == '__main__':
             else:
                 query_index = 0
 
-            query_sparql = test['dir'] + "/" + test['actions'][query_index][1][1:-1]
+            query_sparql = test['dir'].replace(' ', '\ ') + "/" + test['actions'][query_index][1][1:-1]
 
             # Option A: Open One Request/Query File (if exists! -> query NOT EXPLICIT in manifest but pointed to a file)
             # Option B: HTTP-tests (query EXPLICIT in manifest) --> https://zetcode.com/python/getpostrequest/
@@ -1397,8 +1495,18 @@ if __name__ == '__main__':
                 print("\nAscii Request_data: " + ascii(data))
                 print("Endpoint = " + endpoint)
 
-                if isinstance(test['result'], list) and len(test['result']) == 1:
-                    expected_file_data = test['dir'] + "/" + test['result'][0][0][1:-1]
+                # Parse W3C-test results fields which are not completely well typed (ex: list of list with one elem)
+                if isinstance(test['result'][0], list) and len(test['result']) == 1:
+                    if len(test['result'][0]) == 1:
+                        expected_file_data = test['dir'] + "/" + test['result'][0][0][1:-1]
+                    elif len(test['result'][0]) == 2:
+                        expected_file_data = test['dir'] + "/" + test['result'][0][1][1:-1]
+                    else:
+                        1 == 1
+                        print("\t »» Unexpected length of in test-result field")
+                        print("\t »» Aborting test")
+                        test.update({"test-result fields unexpected": {str(test['result'])}})
+                        continue
                 else:
                     expected_file_data = test['dir'] + "/" + test['result'][0][1:-1]
 
@@ -1410,14 +1518,14 @@ if __name__ == '__main__':
                 elif ".srx" in expected_file_data:
                     server_action = "sparql_json_export"
                 elif ".ttl" in expected_file_data:
-                    server_action = "sparql_json_export"
+                    server_action = "turtle_export"
                 elif ".csv" in expected_file_data:
                     server_action = "csv_export"
                 elif ".tsv" in expected_file_data:
                     server_action = "tsv_export"
                 else:
                     1 == 1
-                    print("\t »» expected_file_data suffix = **ELSE**")
+                    print("\t »» expected_file_data suffix = **ELSE** »» ", expected_file_data)
                     server_action = "sparql_json_export"
 
                 print("Action = " + server_action)
@@ -1433,7 +1541,6 @@ if __name__ == '__main__':
 
                 print("server_answer = ", result.text, flush=True)
 
-
                 errorTrace = None
                 if server_action == "sparql_json_export":
                     result_JSON = result.json()
@@ -1441,7 +1548,6 @@ if __name__ == '__main__':
                         errorTrace = result_JSON['exception']
                         output_res = "query not answered;reason: " + str(result_JSON) + "; details: " + errorTrace
                     else:
-                        # Comparing Tools
                         output_res = "query answered; result: " + str(result_JSON)
 
                     f = open("result_" + actualTestName + ".txt", "w")
@@ -1450,55 +1556,92 @@ if __name__ == '__main__':
 
                     # Multiple RESULTS FORMATS (convert if necessary with Apache-Jena ./riot)
                     # Options 1,2,3,...
+                    if result.status_code == 200:  # Good-Request
+                        if file_result_suffix == "srj":
+                            ### Compare JSONs:   --> BNODES (!!)
+                            with open(expected_file_data, 'r') as expected:
+                                data_expected = expected.read()
+                                data_expected = json.loads(data_expected)
 
-                    if file_result_suffix == "srj":
-                        ### Compare JSONs:   --> BNODES (!!)
-                        with open(expected_file_data, 'r') as expected:
-                            data_expected = expected.read()
-                            data_expected = json.loads(data_expected)
+                                f_expected = open("expected_" + actualTestName + ".txt", "w")
+                                f_expected.write(json.dumps(data_expected, indent=4))
+                                f_expected.close()
 
-                            f_expected = open("expected_" + actualTestName + ".txt", "w")
-                            f_expected.write(json.dumps(data_expected, indent=4))
-                            f_expected.close()
+                                f_RAW_result = open("raw_result" + actualTestName + ".txt", "w")
+                                f_RAW_result.write(json.dumps(result_JSON, indent=4))
+                                f_RAW_result.close()
 
-                            f_RAW_result = open("raw_result" + actualTestName + ".txt", "w")
-                            f_RAW_result.write(json.dumps(result_JSON, indent=4))
-                            f_RAW_result.close()
+                                diff = jsoncomparison.Compare().check(data_expected, result_JSON)
+                                f_compare = open("compare_" + actualTestName + ".txt", "w")
+                                f_compare.write(json.dumps(diff, indent=4))
+                                f_compare.close()
 
-                            diff = jsoncomparison.Compare().check(data_expected, result_JSON)
-                            f_compare = open("compare_" + actualTestName + ".txt", "w")
-                            f_compare.write(json.dumps(diff, indent=4))
-                            f_compare.close()
-                    else:
-                        1 == 1
-                        print("\t »» file_result_suffix is * ", file_result_suffix, " *")
+                        elif file_result_suffix == "srx":
+                            1 == 1
+                            print("\t »» COMPARING METHOD WITH JSON-RESPONSE AND CONVERTING EXPECTED RESULT TO JSON {Jena does not convert xml -> ttl/jsonld}")
+
+                        else:
+                            1 == 1
+                            # Debugging if the above algorithm extract the test-result wrongly
+                            print("\t »» COMPARING METHOD WITH JSON-RESPONSE")
+                            print("\t »» file_result_suffix is * ", file_result_suffix, " *")
+
+                        '''
+                        elif file_result_suffix == "ttl":
+                            print("\t »» COMPARING METHOD WITH JSON-RESPONSE AND CONVERTING EXPECTED RESULT TO JSON {Jena does not convert jsonld -> ttl}")
+                            jena_outputFile = currentWorkDir.replace(' ', '\ ') + "/converted_expected_" + \
+                                              expected_file_data[:expected_file_data.rfind('.') - 1] + ".json"
+                            jenaCommand = jena_riot + ' --out=jsonld ' + test['dir'] + "/" + \
+                                          expected_file_data + ' > ' + jena_outputFile
+                            print("jena_outputFile", jena_outputFile)
+                            print("jenaCommand", jenaCommand)
+
+                            exit_code = os.system(jenaCommand)
+
+                            # Check output/error/exit_code
+                            if exit_code != 0:
+                                print("Error! jenaProcess exit_code = " + str(exit_code) + "\n")  # Error
+                                test.update({"jenaProcess": {exit_code}})
+                                # test.update({"jenaProcess": {output, error, exit_code}})
+                                continue
+
+                            print("jenaProcess finished properly, continuing...\n")
+                        '''
 
                 elif server_action == "turtle_export":
                     1 == 1
+                    print("\t »» COMPARING METHOD WITH TURTLE-RESPONSE")
                     print("\t »» server_action = turtle_export")
+
                 elif server_action == "csv_export" or server_action == "tsv_export":
                     print("\t »» server_action = ", server_action)
+
+                    # Read Expected Result Data
                     with open(expected_file_data, 'r') as t1:
                         # , open(result.text, 'r') as t2:
                         fileone = t1.readlines()
                         # filetwo = t2.readlines()
 
-                    buf = io.StringIO(result.text)
+                    buf = io.StringIO(result.text)  # Buffer the Result-Text-Data to compare with Expected-Result-Data
 
                     if server_action == "csv_export":
                         file_output = "compare_" + actualTestName + ".csv"
                     else:
                         file_output = "compare_" + actualTestName + ".tsv"
+
+                    # Write Compare-Result
                     with open(file_output, 'w') as outFile:
                         for line in fileone:
                             if line not in buf.readline():
                                 outFile.write(line)
+                    outFile.close()
 
                 else:
                     1 == 1
+                    # It should be impossible to enter to this else-clause with the current Qlever Engine
                     print("\t »» server_action = **ELSE**")
 
-            result.close()
+            result.close()  # Close Response-HTTP
 
             '''
                 **** Terminate the Server and catch all output ****
@@ -1507,14 +1650,18 @@ if __name__ == '__main__':
             # Read the OUTPUT from Server
             sys.stdout.flush()
             start = time.time()
+            serverOutput = []
             while True:
                 for i in range(2):
                     line = serverProcess.stdout.readline()
                     if len(line):
-                        print(line)
+                        serverOutput.append(line.decode())
+                        print(line.decode())
                     # time.sleep(0.5)
                 if time.time() > start + 2:
                     break
+
+            test.update({"serverOutput": {str(serverOutput)}})
 
             serverProcess.terminate()
 
@@ -1530,7 +1677,6 @@ if __name__ == '__main__':
             # Delete Remaining Garbage
             for filename in glob.glob(_qlever_binary + "/build/benchmark/*.disk"):
                 os.remove(filename)
-
 
     '''
         After benchmark
