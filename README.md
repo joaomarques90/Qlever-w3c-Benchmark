@@ -6,9 +6,9 @@ W3C tests for Qlever
 
 »»» Repositories needed:
 
-https://github.com/ad-freiburg/qlever/
+Qlever Engine: https://github.com/ad-freiburg/qlever/
 
-https://github.com/w3c/rdf-tests/tree/main/sparql11
+W3C RDF-tests: https://github.com/w3c/rdf-tests/tree/main/sparql11
 
 Apache Jena Binary Distributions: https://jena.apache.org/download/index.cgi 
 _________________________________________________________________________________
