@@ -1,0 +1,110 @@
+{
+    "@graph": [
+        {
+            "@id": "_:b0",
+            "rs:binding": [
+                {
+                    "@id": "_:b1"
+                },
+                {
+                    "@id": "_:b2"
+                }
+            ],
+            "rs:index": {
+                "@value": "2",
+                "@type": "xsd:integer"
+            }
+        },
+        {
+            "@id": "_:b1",
+            "rs:value": {
+                "@id": "http://example.org/dirk01"
+            },
+            "rs:variable": "emp"
+        },
+        {
+            "@id": "_:b2",
+            "rs:value": "Dirk",
+            "rs:variable": "name"
+        },
+        {
+            "@id": "_:b3",
+            "rs:value": "Eve",
+            "rs:variable": "name"
+        },
+        {
+            "@id": "_:b4",
+            "rs:value": {
+                "@value": "9",
+                "@type": "xsd:integer"
+            },
+            "rs:variable": "emp"
+        },
+        {
+            "@id": "_:b5",
+            "rs:solution": [
+                {
+                    "@id": "_:b6"
+                },
+                {
+                    "@id": "_:b0"
+                },
+                {
+                    "@id": "_:b7"
+                }
+            ],
+            "rs:resultVariable": [
+                "emp",
+                "name"
+            ],
+            "@type": "rs:ResultSet"
+        },
+        {
+            "@id": "_:b6",
+            "rs:binding": [
+                {
+                    "@id": "_:b4"
+                },
+                {
+                    "@id": "_:b3"
+                }
+            ],
+            "rs:index": {
+                "@value": "3",
+                "@type": "xsd:integer"
+            }
+        },
+        {
+            "@id": "_:b7",
+            "rs:binding": [
+                {
+                    "@id": "_:b8"
+                },
+                {
+                    "@id": "_:b10"
+                }
+            ],
+            "rs:index": {
+                "@value": "1",
+                "@type": "xsd:integer"
+            }
+        },
+        {
+            "@id": "_:b8",
+            "rs:value": {
+                "@id": "_:b9"
+            },
+            "rs:variable": "emp"
+        },
+        {
+            "@id": "_:b10",
+            "rs:value": "John",
+            "rs:variable": "name"
+        }
+    ],
+    "@context": {
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "rs": "http://www.w3.org/2001/sw/DataAccess/tests/result-set#",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    }
+}

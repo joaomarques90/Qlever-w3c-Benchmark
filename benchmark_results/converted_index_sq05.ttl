@@ -1,0 +1,8 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix in: <http://www.example.org/instance#> .
+@prefix ex: <http://www.example.org/schema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+in:a    ex:p    in:b .
+
+in:c    ex:p    <file:///mnt/c/Users/Joao/PycharmProjects/Qlever_Python/sparql11/data-sparql11/subquery/sq05.rdf> .

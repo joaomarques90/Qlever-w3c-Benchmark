@@ -1,0 +1,13 @@
+variable 't' ispresent
+binding 't' ispresent
+present
+present
+not present
+binding 't' ispresent
+present
+present
+not present
+binding 't' ispresent
+present
+present
+not present

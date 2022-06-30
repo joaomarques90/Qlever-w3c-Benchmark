@@ -1,0 +1,4 @@
+variable 'nephew' ispresent
+variable 'uncle' ispresent
+binding 'nephew' isnot present
+binding 'uncle' isnot present

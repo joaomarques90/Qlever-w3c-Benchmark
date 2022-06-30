@@ -1,0 +1,165 @@
+variable 'x' ispresent
+variable 'y' ispresent
+variable 'sum' ispresent
+binding 'x' ispresent
+present
+present
+present
+present
+present
+present
+present
+not present
+binding 'y' ispresent
+present
+present
+present
+present
+present
+present
+present
+not present
+binding 'x' ispresent
+present
+present
+present
+present
+present
+present
+present
+not present
+binding 'y' ispresent
+present
+present
+present
+present
+present
+present
+present
+not present
+binding 'x' ispresent
+present
+present
+present
+present
+present
+present
+present
+not present
+binding 'y' ispresent
+present
+present
+present
+present
+present
+present
+present
+not present
+binding 'x' ispresent
+present
+present
+present
+present
+present
+present
+present
+not present
+binding 'y' ispresent
+present
+present
+present
+present
+present
+present
+present
+not present
+binding 'sum' isnot present
+not present
+not present
+not present
+not present
+not present
+not present
+not present
+not present
+binding 'x' ispresent
+present
+present
+present
+present
+present
+present
+present
+not present
+binding 'y' ispresent
+present
+present
+present
+present
+present
+present
+present
+not present
+binding 'x' ispresent
+present
+present
+present
+present
+present
+present
+present
+not present
+binding 'y' ispresent
+present
+present
+present
+present
+present
+present
+present
+not present
+binding 'x' ispresent
+present
+present
+present
+present
+present
+present
+present
+not present
+binding 'y' ispresent
+present
+present
+present
+present
+present
+present
+present
+not present
+binding 'sum' isnot present
+not present
+not present
+not present
+not present
+not present
+not present
+not present
+not present
+binding 'x' ispresent
+present
+present
+present
+present
+present
+present
+present
+not present
+binding 'y' ispresent
+present
+present
+present
+present
+present
+present
+present
+not present

@@ -1,0 +1,39 @@
+{
+    "head": {
+        "vars": [
+            "name"
+        ]
+    },
+    "results": {
+        "bindings": [
+            {
+                "name": {
+                    "datatype": "http://www.w3.org/2001/XMLSchema#string",
+                    "type": "literal",
+                    "value": "Fred"
+                }
+            },
+            {
+                "name": {
+                    "datatype": "http://www.w3.org/2001/XMLSchema#string",
+                    "type": "literal",
+                    "value": "Eve"
+                }
+            },
+            {
+                "name": {
+                    "datatype": "http://www.w3.org/2001/XMLSchema#string",
+                    "type": "literal",
+                    "value": "Bob"
+                }
+            },
+            {
+                "name": {
+                    "datatype": "http://www.w3.org/2001/XMLSchema#string",
+                    "type": "literal",
+                    "value": "Alice"
+                }
+            }
+        ]
+    }
+}

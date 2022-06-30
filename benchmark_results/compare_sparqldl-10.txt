@@ -1,0 +1,8 @@
+variable 'X' ispresent
+variable 'Y' ispresent
+binding 'X' isnot present
+binding 'Y' isnot present
+binding 'X' isnot present
+binding 'Y' isnot present
+binding 'X' isnot present
+binding 'Y' isnot present

@@ -1,0 +1,10 @@
+variable 's' ispresent
+variable 'o' ispresent
+binding 's' ispresent
+not present
+binding 'o' ispresent
+not present
+binding 's' ispresent
+not present
+binding 'o' ispresent
+not present

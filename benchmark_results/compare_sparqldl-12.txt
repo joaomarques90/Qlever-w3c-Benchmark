@@ -1,0 +1,5 @@
+variable 'C' ispresent
+binding 'C' ispresent
+not present
+binding 'C' ispresent
+not present

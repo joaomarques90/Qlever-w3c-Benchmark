@@ -1,0 +1,143 @@
+{
+    "@graph": [
+        {
+            "@id": "_:b0",
+            "rs:binding": [
+                {
+                    "@id": "_:b1"
+                },
+                {
+                    "@id": "_:b2"
+                }
+            ],
+            "rs:index": {
+                "@value": "2",
+                "@type": "xsd:integer"
+            }
+        },
+        {
+            "@id": "_:b1",
+            "rs:value": {
+                "@value": "23.0",
+                "@type": "xsd:float"
+            },
+            "rs:variable": "emp"
+        },
+        {
+            "@id": "_:b2",
+            "rs:value": "Bob",
+            "rs:variable": "name"
+        },
+        {
+            "@id": "_:b3",
+            "rs:binding": [
+                {
+                    "@id": "_:b4"
+                },
+                {
+                    "@id": "_:b5"
+                }
+            ],
+            "rs:index": {
+                "@value": "4",
+                "@type": "xsd:integer"
+            }
+        },
+        {
+            "@id": "_:b4",
+            "rs:value": {
+                "@value": "29",
+                "@type": "xsd:integer"
+            },
+            "rs:variable": "emp"
+        },
+        {
+            "@id": "_:b5",
+            "rs:value": "Alice",
+            "rs:variable": "name"
+        },
+        {
+            "@id": "_:b6",
+            "rs:value": "Eve",
+            "rs:variable": "name"
+        },
+        {
+            "@id": "_:b7",
+            "rs:value": {
+                "@value": "27",
+                "@type": "xsd:integer"
+            },
+            "rs:variable": "emp"
+        },
+        {
+            "@id": "_:b8",
+            "rs:solution": [
+                {
+                    "@id": "_:b3"
+                },
+                {
+                    "@id": "_:b9"
+                },
+                {
+                    "@id": "_:b0"
+                },
+                {
+                    "@id": "_:b10"
+                }
+            ],
+            "rs:resultVariable": [
+                "emp",
+                "name"
+            ],
+            "@type": "rs:ResultSet"
+        },
+        {
+            "@id": "_:b9",
+            "rs:binding": [
+                {
+                    "@id": "_:b7"
+                },
+                {
+                    "@id": "_:b11"
+                }
+            ],
+            "rs:index": {
+                "@value": "3",
+                "@type": "xsd:integer"
+            }
+        },
+        {
+            "@id": "_:b10",
+            "rs:binding": [
+                {
+                    "@id": "_:b12"
+                },
+                {
+                    "@id": "_:b6"
+                }
+            ],
+            "rs:index": {
+                "@value": "1",
+                "@type": "xsd:integer"
+            }
+        },
+        {
+            "@id": "_:b11",
+            "rs:value": "Fred",
+            "rs:variable": "name"
+        },
+        {
+            "@id": "_:b12",
+            "rs:value": {
+                "@value": "9",
+                "@type": "xsd:integer"
+            },
+            "rs:variable": "emp"
+        }
+    ],
+    "@context": {
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "rs": "http://www.w3.org/2001/sw/DataAccess/tests/result-set#",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    }
+}

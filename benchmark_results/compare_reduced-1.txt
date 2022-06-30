@@ -1,0 +1,26 @@
+variable 's' ispresent
+variable 'o' ispresent
+binding 's' ispresent
+present
+present
+not present
+binding 'o' ispresent
+present
+present
+not present
+binding 's' ispresent
+present
+present
+not present
+binding 'o' ispresent
+present
+present
+not present
+binding 's' ispresent
+present
+present
+not present
+binding 'o' ispresent
+present
+present
+not present

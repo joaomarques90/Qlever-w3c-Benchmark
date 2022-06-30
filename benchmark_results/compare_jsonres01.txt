@@ -1,0 +1,26 @@
+{
+    "results": {
+        "bindings": {
+            "_content": {
+                "3": {
+                    "o": {
+                        "datatype": {
+                            "_message": "Values not equal. Expected: <http://www.w3.org/2001/XMLSchema#integer>, received: <http://www.w3.org/2001/XMLSchema#int>",
+                            "_expected": "http://www.w3.org/2001/XMLSchema#integer",
+                            "_received": "http://www.w3.org/2001/XMLSchema#int"
+                        }
+                    }
+                },
+                "5": {
+                    "o": {
+                        "value": {
+                            "_message": "Values not equal. Expected: <b0>, received: <o6>",
+                            "_expected": "b0",
+                            "_received": "o6"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

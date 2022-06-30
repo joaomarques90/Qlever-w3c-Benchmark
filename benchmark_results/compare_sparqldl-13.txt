@@ -1,0 +1,27 @@
+variable 'a' ispresent
+variable 'b' ispresent
+variable 'x' ispresent
+binding 'a' ispresent
+not present
+binding 'b' ispresent
+not present
+binding 'x' ispresent
+not present
+binding 'a' ispresent
+not present
+binding 'b' ispresent
+not present
+binding 'x' ispresent
+not present
+binding 'a' ispresent
+not present
+binding 'b' ispresent
+not present
+binding 'x' ispresent
+not present
+binding 'a' ispresent
+not present
+binding 'b' ispresent
+not present
+binding 'x' ispresent
+not present

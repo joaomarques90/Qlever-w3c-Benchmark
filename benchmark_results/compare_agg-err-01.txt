@@ -1,0 +1,31 @@
+variable 'g' ispresent
+variable 'avg' ispresent
+variable 'c' ispresent
+binding 'g' ispresent
+present
+present
+not present
+binding 'avg' isnot present
+not present
+not present
+not present
+binding 'c' ispresent
+present
+present
+not present
+binding 'g' ispresent
+present
+present
+not present
+binding 'g' ispresent
+present
+present
+not present
+binding 'avg' isnot present
+not present
+not present
+not present
+binding 'c' ispresent
+present
+present
+not present

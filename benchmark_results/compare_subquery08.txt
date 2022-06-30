@@ -1,0 +1,6 @@
+variable 'x' ispresent
+variable 'max' ispresent
+binding 'x' ispresent
+not present
+binding 'max' isnot present
+not present

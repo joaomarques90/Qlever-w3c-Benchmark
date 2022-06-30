@@ -1,0 +1,21 @@
+variable 'X' ispresent
+variable 'Y1' ispresent
+variable 'Y2' ispresent
+binding 'X' ispresent
+present
+not present
+binding 'Y1' isnot present
+not present
+not present
+binding 'Y2' isnot present
+not present
+not present
+binding 'X' ispresent
+present
+not present
+binding 'Y1' isnot present
+not present
+not present
+binding 'Y2' isnot present
+not present
+not present

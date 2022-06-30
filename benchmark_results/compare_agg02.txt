@@ -1,0 +1,14 @@
+variable 'P' ispresent
+variable 'C' ispresent
+binding 'P' ispresent
+present
+not present
+binding 'C' ispresent
+present
+not present
+binding 'P' ispresent
+present
+not present
+binding 'C' ispresent
+present
+not present

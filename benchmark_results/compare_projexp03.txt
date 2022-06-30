@@ -1,0 +1,15 @@
+variable 'x' ispresent
+variable 'y' ispresent
+variable 'z' ispresent
+variable 'sum' ispresent
+variable 'twice' ispresent
+binding 'x' ispresent
+not present
+binding 'y' ispresent
+not present
+binding 'z' ispresent
+not present
+binding 'sum' isnot present
+not present
+binding 'twice' isnot present
+not present
