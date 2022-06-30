@@ -1,0 +1,4 @@
+query not answered;reason: {'exception': "ParseException, cause: Expected 'select' but got 'as' in the input at pos 48 : ASK {\n\tBIND(RAND() AS ?r)\n\tFILTER(DATATYPE(?r) = xsd:double && ?r >= 0.0 && ?r < 1.0)\n}\n", 'query': 'PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nASK {\n\tBIND(RAND() AS ?r)\n\tFILTER(DATATYPE(?r) = xsd:double && ?r >= 0.0 && ?r < 1.0)\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 4, 'total': 4}}; details: ParseException, cause: Expected 'select' but got 'as' in the input at pos 48 : ASK {
+	BIND(RAND() AS ?r)
+	FILTER(DATATYPE(?r) = xsd:double && ?r >= 0.0 && ?r < 1.0)
+}

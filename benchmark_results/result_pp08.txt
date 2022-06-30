@@ -1,0 +1,3 @@
+query not answered;reason: {'exception': "ParseException, cause: Expected 'select' but got 'as' in the input at pos 91 : ask {\nin:b ^ex:p in:a\n}", 'query': 'prefix ex:\t<http://www.example.org/schema#>\nprefix in:\t<http://www.example.org/instance#>\n\nask {\nin:b ^ex:p in:a\n}', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 5, 'total': 5}}; details: ParseException, cause: Expected 'select' but got 'as' in the input at pos 91 : ask {
+in:b ^ex:p in:a
+}

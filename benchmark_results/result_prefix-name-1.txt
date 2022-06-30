@@ -1,0 +1,1 @@
+query not answered;reason: {'exception': 'ParseException, cause: Error in SELECT: unexpected token: {', 'query': 'PREFIX ex: <http://example.org/ns#x> \nSELECT ?p {\n  ex: ?p 1 .\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 4, 'total': 4}}; details: ParseException, cause: Error in SELECT: unexpected token: {

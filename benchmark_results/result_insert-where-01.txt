@@ -1,0 +1,5 @@
+query not answered;reason: {'exception': 'ParseException, cause: Unexpected input: INSERT {\n\t?s ?p "q"\n} WHERE {\n\t?s ?p ?o\n}\n', 'query': 'PREFIX     : <http://example.org/> \n\nINSERT {\n\t?s ?p "q"\n} WHERE {\n\t?s ?p ?o\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 4, 'total': 4}}; details: ParseException, cause: Unexpected input: INSERT {
+	?s ?p "q"
+} WHERE {
+	?s ?p ?o
+}

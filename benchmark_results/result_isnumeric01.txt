@@ -1,0 +1,2 @@
+query not answered;reason: {'exception': "ParseException, cause: Expected '.' but got 'filter' in the input at pos 67 : FILTER isNumeric(?num)\n}\n", 'query': 'PREFIX : <http://example.org/>\nSELECT ?s ?num WHERE {\n\t?s ?p ?num\n\tFILTER isNumeric(?num)\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 5, 'total': 5}}; details: ParseException, cause: Expected '.' but got 'filter' in the input at pos 67 : FILTER isNumeric(?num)
+}

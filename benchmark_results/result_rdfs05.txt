@@ -1,0 +1,1 @@
+query answered; result: {'head': {'vars': ['x', 'c']}, 'results': {'bindings': [{'c': {'type': 'uri', 'value': 'http://example.org/x/c'}, 'x': {'type': 'uri', 'value': 'http://example.org/x/x'}}]}}

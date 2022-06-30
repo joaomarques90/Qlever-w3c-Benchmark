@@ -1,0 +1,3 @@
+query not answered;reason: {'exception': 'ParseException, cause: Unexpected input: datatype(?l) as ?dt) where {\n  ?x ex:p ?l\n}', 'query': 'prefix ex:\t<http://www.example.org/schema#>\nprefix in:\t<http://www.example.org/instance#>\n\nselect ?x ?l (datatype(?l) as ?dt) where {\n  ?x ex:p ?l\n}', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 6, 'total': 6}}; details: ParseException, cause: Unexpected input: datatype(?l) as ?dt) where {
+  ?x ex:p ?l
+}

@@ -1,0 +1,5 @@
+query not answered;reason: {'exception': "ParseException, cause: Expected 'select' but got 'as' in the input at pos 96 : ASK \nWHERE {\n  ex:b rdf:type rdf:Property .\n}\n\n", 'query': 'PREFIX ex: <http://example.org/ns#>\nPREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n\nASK \nWHERE {\n  ex:b rdf:type rdf:Property .\n}\n\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 5, 'total': 5}}; details: ParseException, cause: Expected 'select' but got 'as' in the input at pos 96 : ASK 
+WHERE {
+  ex:b rdf:type rdf:Property .
+}
+

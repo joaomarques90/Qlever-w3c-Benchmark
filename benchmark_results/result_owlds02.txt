@@ -1,0 +1,1 @@
+query answered; result: {'head': {'vars': ['x', 'y']}, 'results': {'bindings': [{'x': {'type': 'uri', 'value': 'http://example.org/x/x'}, 'y': {'type': 'uri', 'value': 'http://example.org/x/y'}}, {'x': {'type': 'uri', 'value': 'http://example.org/x/x'}, 'y': {'type': 'bnode', 'value': 'y'}}]}}

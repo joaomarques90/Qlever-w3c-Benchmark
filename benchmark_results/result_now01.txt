@@ -1,0 +1,4 @@
+query not answered;reason: {'exception': "ParseException, cause: Expected 'select' but got 'as' in the input at pos 48 : ASK {\n\tBIND(NOW() AS ?n)\n\tFILTER(DATATYPE(?n) = xsd:dateTime)\n}\n", 'query': 'PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nASK {\n\tBIND(NOW() AS ?n)\n\tFILTER(DATATYPE(?n) = xsd:dateTime)\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 4, 'total': 4}}; details: ParseException, cause: Expected 'select' but got 'as' in the input at pos 48 : ASK {
+	BIND(NOW() AS ?n)
+	FILTER(DATATYPE(?n) = xsd:dateTime)
+}

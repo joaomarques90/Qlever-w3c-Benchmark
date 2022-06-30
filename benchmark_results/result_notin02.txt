@@ -1,0 +1,3 @@
+query not answered;reason: {'exception': "ParseException, cause: Expected 'select' but got 'as' in the input at pos 0 : ASK {\n\tFILTER(2 NOT IN (1/0, 2))\n}\n", 'query': 'ASK {\n\tFILTER(2 NOT IN (1/0, 2))\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 6, 'total': 6}}; details: ParseException, cause: Expected 'select' but got 'as' in the input at pos 0 : ASK {
+	FILTER(2 NOT IN (1/0, 2))
+}

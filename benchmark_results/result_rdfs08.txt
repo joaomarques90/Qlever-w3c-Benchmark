@@ -1,0 +1,1 @@
+query answered; result: {'head': {'vars': ['x']}, 'results': {'bindings': [{'x': {'type': 'uri', 'value': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral'}}]}}
