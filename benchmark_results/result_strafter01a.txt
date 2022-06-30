@@ -1,0 +1,1 @@
+query not answered;reason: {'exception': 'Failed to parse alias:  at token ","', 'query': 'PREFIX : <http://example.org/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT ?s (STRAFTER(?str,"e") AS ?suffix) WHERE {\n\t?s :str ?str\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 12, 'total': 12}}; details: Failed to parse alias:  at token ","

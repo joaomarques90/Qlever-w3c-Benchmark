@@ -1,0 +1,3 @@
+query not answered;reason: {'exception': 'ParseException, cause: Unexpected input: ROUND(?num) AS ?round) WHERE {\n\t?s :num ?num\n}\n', 'query': 'PREFIX : <http://example.org/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT ?s ?num (ROUND(?num) AS ?round) WHERE {\n\t?s :num ?num\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 5, 'total': 5}}; details: ParseException, cause: Unexpected input: ROUND(?num) AS ?round) WHERE {
+	?s :num ?num
+}

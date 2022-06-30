@@ -1,0 +1,1 @@
+query answered; result: {'head': {'vars': ['f']}, 'results': {'bindings': [{'f': {'type': 'uri', 'value': 'http://example.org/ns#apple'}}]}}

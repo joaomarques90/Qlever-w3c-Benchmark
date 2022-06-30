@@ -1,0 +1,2 @@
+query not answered;reason: {'exception': 'ParseException, cause: Unexpected input: _:a.\n _:a :r ?Y.}', 'query': '# Query6 - articulation simplification test\n\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX : <http://example.org/test#>\n\nSELECT *\nWHERE\n{?X :p _:a.\n _:a :r ?Y.}', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 4, 'total': 4}}; details: ParseException, cause: Unexpected input: _:a.
+ _:a :r ?Y.}

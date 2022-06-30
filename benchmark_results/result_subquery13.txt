@@ -1,0 +1,8 @@
+query not answered;reason: {'exception': 'ParseException, cause: Unexpected input: [ rdfs:label ?L ] .\n {\n SELECT ?O2\n WHERE {\n ?O2 :hasItem [ rdfs:label ?L ] .\n }\n}} ORDER BY ?O1 ?O2\n\n', 'query': '# return labels of items for the first 2 orders\n\nPREFIX : <http://www.example.org>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\nSELECT DISTINCT ?O1 ?O2\nWHERE {\n ?O1 :hasItem [ rdfs:label ?L ] .\n {\n SELECT ?O2\n WHERE {\n ?O2 :hasItem [ rdfs:label ?L ] .\n }\n}} ORDER BY ?O1 ?O2\n\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 5, 'total': 5}}; details: ParseException, cause: Unexpected input: [ rdfs:label ?L ] .
+ {
+ SELECT ?O2
+ WHERE {
+ ?O2 :hasItem [ rdfs:label ?L ] .
+ }
+}} ORDER BY ?O1 ?O2
+

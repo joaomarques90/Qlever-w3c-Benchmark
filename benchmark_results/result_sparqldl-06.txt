@@ -1,0 +1,8 @@
+query not answered;reason: {'exception': "ParseException, cause: Expected 'select' but got 'as' in the input at pos 144 : ASK\nWHERE\n{\n:a :p _:aa.\n_:aa :r _:dd.\n_:dd :t _:bb.\n_:bb :s :a.\n}\n", 'query': '# Query6 - cycle with undistinguished variables\n\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX : <http://example.org/test#>\n\nASK\nWHERE\n{\n:a :p _:aa.\n_:aa :r _:dd.\n_:dd :t _:bb.\n_:bb :s :a.\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 5, 'total': 5}}; details: ParseException, cause: Expected 'select' but got 'as' in the input at pos 144 : ASK
+WHERE
+{
+:a :p _:aa.
+_:aa :r _:dd.
+_:dd :t _:bb.
+_:bb :s :a.
+}

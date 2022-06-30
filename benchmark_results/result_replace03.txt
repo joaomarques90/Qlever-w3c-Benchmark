@@ -1,0 +1,3 @@
+query not answered;reason: {'exception': 'ParseException, cause: Unexpected input: REPLACE(?str,"(ab)|(a)", "[1=$1][2=$2]") AS ?new) WHERE {\n\t:s9 :str ?str\n}\n', 'query': 'PREFIX : <http://example.org/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT (REPLACE(?str,"(ab)|(a)", "[1=$1][2=$2]") AS ?new) WHERE {\n\t:s9 :str ?str\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 5, 'total': 5}}; details: ParseException, cause: Unexpected input: REPLACE(?str,"(ab)|(a)", "[1=$1][2=$2]") AS ?new) WHERE {
+	:s9 :str ?str
+}

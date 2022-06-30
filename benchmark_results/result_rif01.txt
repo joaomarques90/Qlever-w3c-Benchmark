@@ -1,0 +1,1 @@
+query answered; result: {'head': {'vars': ['nephew', 'uncle']}, 'results': {'bindings': []}}

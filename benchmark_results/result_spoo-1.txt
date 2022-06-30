@@ -1,0 +1,3 @@
+query not answered;reason: {'exception': 'ParseException, cause: Expected a token of type IRI but got a token of type LOGICAL_OR (1) in the input at pos 118 : 1, 2 .\n}\n\n', 'query': 'PREFIX : <http://example.org/ns#> \nPREFIX xsd:        <http://www.w3.org/2001/XMLSchema#> \n\nSELECT ?s WHERE {\n ?s :p1 1, 2 .\n}\n\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 4, 'total': 4}}; details: ParseException, cause: Expected a token of type IRI but got a token of type LOGICAL_OR (1) in the input at pos 118 : 1, 2 .
+}
+

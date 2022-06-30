@@ -1,0 +1,5 @@
+query not answered;reason: {'exception': 'ParseException, cause: Unexpected input: [\n       a owl:Class ;\n       owl:unionOf ( :B :C )\n   ] . \n}\n', 'query': 'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX owl: <http://www.w3.org/2002/07/owl#>  \nPREFIX : <http://example.org/test#>\n\nSELECT ?x\nWHERE { \n   ?x a [\n       a owl:Class ;\n       owl:unionOf ( :B :C )\n   ] . \n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 5, 'total': 5}}; details: ParseException, cause: Unexpected input: [
+       a owl:Class ;
+       owl:unionOf ( :B :C )
+   ] . 
+}

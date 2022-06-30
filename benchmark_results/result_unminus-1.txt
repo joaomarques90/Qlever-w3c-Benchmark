@@ -1,0 +1,1 @@
+query not answered;reason: {'exception': 'ParseException, cause: - is not a valid left hand side for a filter.', 'query': 'PREFIX : <http://example.org/>\nSELECT ?s WHERE {\n    ?s :p ?o .\n    FILTER(-?o = -2) .\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 3, 'total': 3}}; details: ParseException, cause: - is not a valid left hand side for a filter.

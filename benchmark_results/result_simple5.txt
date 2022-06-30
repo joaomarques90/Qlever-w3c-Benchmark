@@ -1,0 +1,9 @@
+query not answered;reason: {'exception': 'ParseException, cause: Unexpected input: [\n        a owl:Restriction ;\n        owl:onProperty :p ;\n        owl:someValuesFrom [\n            a owl:Class ;\n            owl:unionOf ( :A :B )\n        ] \n    ]\n}\n', 'query': 'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX owl: <http://www.w3.org/2002/07/owl#>  \nPREFIX : <http://example.org/test#>\n\nSELECT ?x\nWHERE { \n    ?x a [\n        a owl:Restriction ;\n        owl:onProperty :p ;\n        owl:someValuesFrom [\n            a owl:Class ;\n            owl:unionOf ( :A :B )\n        ] \n    ]\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 4, 'total': 4}}; details: ParseException, cause: Unexpected input: [
+        a owl:Restriction ;
+        owl:onProperty :p ;
+        owl:someValuesFrom [
+            a owl:Class ;
+            owl:unionOf ( :A :B )
+        ] 
+    ]
+}

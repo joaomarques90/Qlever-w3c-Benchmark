@@ -1,0 +1,3 @@
+query not answered;reason: {'exception': 'ParseException, cause: Unexpected input: SECONDS(?date) AS ?x) WHERE {\n\t?s :date ?date\n}\n', 'query': 'PREFIX : <http://example.org/>\nSELECT ?s (SECONDS(?date) AS ?x) WHERE {\n\t?s :date ?date\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 5, 'total': 5}}; details: ParseException, cause: Unexpected input: SECONDS(?date) AS ?x) WHERE {
+	?s :date ?date
+}

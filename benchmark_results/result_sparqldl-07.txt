@@ -1,0 +1,4 @@
+query not answered;reason: {'exception': 'ParseException, cause: Unexpected input: _:aa.\n ?X :t ?Y.\n ?Y :s _:aa.\n _:aa :r ?Z.}', 'query': '# Query6 - cycle with undistinguished variables\n\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX : <http://example.org/test#>\n\nSELECT *\nWHERE\n{:a :p _:aa.\n ?X :t ?Y.\n ?Y :s _:aa.\n _:aa :r ?Z.}', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 7, 'total': 7}}; details: ParseException, cause: Unexpected input: _:aa.
+ ?X :t ?Y.
+ ?Y :s _:aa.
+ _:aa :r ?Z.}

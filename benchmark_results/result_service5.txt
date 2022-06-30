@@ -1,0 +1,8 @@
+query not answered;reason: {'exception': 'ParseException, cause: Expected \'.\' but got \'filter\' in the input at pos 379 : FILTER regex(?projectSubject, "remote")\n  }\n\n  # Query that service projects.\n \n  SERVICE ?service {\n     ?project  doap:name ?title . } \n}', 'query': 'PREFIX  void: <http://rdfs.org/ns/void#>\nPREFIX  dc:   <http://purl.org/dc/elements/1.1/>\nPREFIX  doap: <http://usefulinc.com/ns/doap#> \n\nSELECT ?service ?title\nWHERE {\n  {\n    # Find the service with subject "remote".\n    # Inner block to fix the FILTER not be over\n    # just this local pattern.\n    ?p dc:subject ?projectSubject ;\n       void:sparqlEndpoint ?service  \n       FILTER regex(?projectSubject, "remote")\n  }\n\n  # Query that service projects.\n \n  SERVICE ?service {\n     ?project  doap:name ?title . } \n}', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 5, 'total': 5}}; details: ParseException, cause: Expected '.' but got 'filter' in the input at pos 379 : FILTER regex(?projectSubject, "remote")
+  }
+
+  # Query that service projects.
+ 
+  SERVICE ?service {
+     ?project  doap:name ?title . } 
+}

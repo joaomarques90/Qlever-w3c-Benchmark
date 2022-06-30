@@ -1,0 +1,1 @@
+query not answered;reason: {'exception': 'ParseException, cause: + is not a valid right hand side for a filter.', 'query': 'PREFIX : <http://example.org/>\nSELECT ?s WHERE {\n    ?s :p ?o .\n    FILTER(?o = +3) .\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 8, 'total': 8}}; details: ParseException, cause: + is not a valid right hand side for a filter.

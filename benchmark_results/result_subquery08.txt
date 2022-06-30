@@ -1,0 +1,1 @@
+query answered; result: {'head': {'vars': ['x', 'max']}, 'results': {'bindings': [{'max': {'datatype': 'http://www.w3.org/2001/XMLSchema#int', 'type': 'literal', 'value': '3'}, 'x': {'type': 'uri', 'value': 'http://www.example.org/instance#b'}}]}}

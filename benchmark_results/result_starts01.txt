@@ -1,0 +1,2 @@
+query not answered;reason: {'exception': 'ParseException, cause: Expected \'.\' but got \'filter\' in the input at pos 115 : FILTER STRSTARTS(STR(?str), "1")\n}\n', 'query': 'PREFIX : <http://example.org/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT ?s ?str WHERE {\n\t?s ?p ?str\n\tFILTER STRSTARTS(STR(?str), "1")\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 4, 'total': 4}}; details: ParseException, cause: Expected '.' but got 'filter' in the input at pos 115 : FILTER STRSTARTS(STR(?str), "1")
+}

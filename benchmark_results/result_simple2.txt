@@ -1,0 +1,11 @@
+query not answered;reason: {'exception': 'ParseException, cause: Unexpected input: [\n       owl:intersectionOf ( \n          :A \n          [\n\t\t      a owl:Restriction ;\n\t\t      owl:onProperty :p ;\n\t\t      owl:someValuesFrom :B\n\t\t  ] \n       )\n   ] . \n}\n', 'query': 'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX owl: <http://www.w3.org/2002/07/owl#>  \nPREFIX : <http://example.org/test#>\n\nSELECT ?x\nWHERE { \n   ?x a [\n       owl:intersectionOf ( \n          :A \n          [\n\t\t      a owl:Restriction ;\n\t\t      owl:onProperty :p ;\n\t\t      owl:someValuesFrom :B\n\t\t  ] \n       )\n   ] . \n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 2, 'total': 2}}; details: ParseException, cause: Unexpected input: [
+       owl:intersectionOf ( 
+          :A 
+          [
+		      a owl:Restriction ;
+		      owl:onProperty :p ;
+		      owl:someValuesFrom :B
+		  ] 
+       )
+   ] . 
+}

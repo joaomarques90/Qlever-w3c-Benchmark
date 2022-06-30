@@ -1,0 +1,4 @@
+query not answered;reason: {'exception': 'ParseException, cause: Unexpected input: [\n       owl:intersectionOf ( :A :B )\n   ] . \n}\n', 'query': 'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX owl: <http://www.w3.org/2002/07/owl#>  \nPREFIX : <http://example.org/test#>\n\nSELECT ?x\nWHERE { \n   ?x a [\n       owl:intersectionOf ( :A :B )\n   ] . \n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 3, 'total': 3}}; details: ParseException, cause: Unexpected input: [
+       owl:intersectionOf ( :A :B )
+   ] . 
+}

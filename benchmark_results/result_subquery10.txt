@@ -1,0 +1,2 @@
+query not answered;reason: {'exception': 'ParseException, cause: Unexpected input: exists {?x ex:q ?y}) \n}\n', 'query': 'prefix ex:\t<http://www.example.org/schema#>\nprefix in:\t<http://www.example.org/instance#>\n\nselect ?x  where {\n{select * where {?x ex:p ?y}} \nfilter(exists {?x ex:q ?y}) \n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 5, 'total': 5}}; details: ParseException, cause: Unexpected input: exists {?x ex:q ?y}) 
+}

@@ -1,0 +1,1 @@
+query not answered;reason: {'exception': 'Failed to parse alias:  at token ","', 'query': 'PREFIX : <http://example.org/>\nSELECT ?s (STRLANG(STR(?str),"en-US") AS ?s2) WHERE {\n\t?s :str ?str\n\tFILTER(LANGMATCHES(LANG(?str), "en"))\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 10, 'total': 10}}; details: Failed to parse alias:  at token ","

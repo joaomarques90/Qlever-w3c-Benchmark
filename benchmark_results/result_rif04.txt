@@ -1,0 +1,3 @@
+query not answered;reason: {'exception': "ParseException, cause: Expected 'select' but got 'as' in the input at pos 50 : ASK {\n    ba:g1 ba:isMAEConnectedTo ba:pcg0\n}", 'query': 'PREFIX ba: <http://example.org/testOntology.owl#>\nASK {\n    ba:g1 ba:isMAEConnectedTo ba:pcg0\n}', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 7, 'total': 7}}; details: ParseException, cause: Expected 'select' but got 'as' in the input at pos 50 : ASK {
+    ba:g1 ba:isMAEConnectedTo ba:pcg0
+}
