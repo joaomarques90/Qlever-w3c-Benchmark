@@ -1,0 +1,3 @@
+query not answered;reason: {'exception': 'ParseException, cause: Unexpected input: ENCODE_FOR_URI(?str) AS ?encoded) WHERE {\n\t?s :str ?str\n}\n', 'query': 'PREFIX : <http://example.org/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT ?s ?str (ENCODE_FOR_URI(?str) AS ?encoded) WHERE {\n\t?s :str ?str\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 4, 'total': 4}}; details: ParseException, cause: Unexpected input: ENCODE_FOR_URI(?str) AS ?encoded) WHERE {
+	?s :str ?str
+}

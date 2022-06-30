@@ -1,0 +1,4 @@
+query not answered;reason: {'exception': 'ParseException, cause: Unexpected input: CONCAT(?str1,?str2) AS ?str) WHERE {\n\t:s6 :str ?str1 .\n\t:s7 :str ?str2 .\n}\n', 'query': 'PREFIX : <http://example.org/>\nSELECT (CONCAT(?str1,?str2) AS ?str) WHERE {\n\t:s6 :str ?str1 .\n\t:s7 :str ?str2 .\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 5, 'total': 5}}; details: ParseException, cause: Unexpected input: CONCAT(?str1,?str2) AS ?str) WHERE {
+	:s6 :str ?str1 .
+	:s7 :str ?str2 .
+}

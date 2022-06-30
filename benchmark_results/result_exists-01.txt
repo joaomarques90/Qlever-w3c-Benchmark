@@ -1,0 +1,4 @@
+query not answered;reason: {'exception': 'ParseException, cause: Unexpected input: EXISTS {\n\t\t?set :member 9\n\t}\n}\n', 'query': 'PREFIX :    <http://example/>\nPREFIX  rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n# SPARQL 1.1\nSELECT *\nWHERE\n{\n\t?set a :Set .\n\tFILTER EXISTS {\n\t\t?set :member 9\n\t}\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 6, 'total': 6}}; details: ParseException, cause: Unexpected input: EXISTS {
+		?set :member 9
+	}
+}

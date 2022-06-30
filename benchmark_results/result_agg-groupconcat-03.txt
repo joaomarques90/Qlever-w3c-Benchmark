@@ -1,0 +1,6 @@
+query not answered;reason: {'exception': 'ParseException, cause: Expected \'select\' but got \'as\' in the input at pos 35 : ASK {\n\t{SELECT (GROUP_CONCAT(?o;SEPARATOR=":") AS ?g) WHERE {\n\t\t[] :p1 ?o\n\t}}\n\tFILTER(?g = "1:22" || ?g = "22:1")\n}\n', 'query': 'PREFIX : <http://www.example.org/>\nASK {\n\t{SELECT (GROUP_CONCAT(?o;SEPARATOR=":") AS ?g) WHERE {\n\t\t[] :p1 ?o\n\t}}\n\tFILTER(?g = "1:22" || ?g = "22:1")\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 5, 'total': 5}}; details: ParseException, cause: Expected 'select' but got 'as' in the input at pos 35 : ASK {
+	{SELECT (GROUP_CONCAT(?o;SEPARATOR=":") AS ?g) WHERE {
+		[] :p1 ?o
+	}}
+	FILTER(?g = "1:22" || ?g = "22:1")
+}

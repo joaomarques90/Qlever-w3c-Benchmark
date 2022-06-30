@@ -1,0 +1,1 @@
+query answered; result: {'head': {'vars': ['v']}, 'results': {'bindings': [{'v': {'type': 'literal', 'value': 'd:x ns:p'}}]}}

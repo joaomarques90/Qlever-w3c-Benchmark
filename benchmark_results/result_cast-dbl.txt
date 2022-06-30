@@ -1,0 +1,2 @@
+query not answered;reason: {'exception': 'ParseException, cause: Unexpected input: datatype(xsd:double(?v)) = xsd:double) .\n}\n', 'query': 'PREFIX : <http://example.org/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT ?s WHERE {\n    ?s :p ?v .\n    FILTER(datatype(xsd:double(?v)) = xsd:double) .\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 5, 'total': 5}}; details: ParseException, cause: Unexpected input: datatype(xsd:double(?v)) = xsd:double) .
+}

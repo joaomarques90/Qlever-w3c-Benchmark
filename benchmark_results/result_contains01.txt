@@ -1,0 +1,2 @@
+query not answered;reason: {'exception': 'ParseException, cause: Expected \'.\' but got \'filter\' in the input at pos 117 : FILTER CONTAINS(?str, "a")\n}\n', 'query': 'PREFIX : <http://example.org/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT ?s ?str WHERE {\n\t?s :str ?str\n\tFILTER CONTAINS(?str, "a")\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 5, 'total': 5}}; details: ParseException, cause: Expected '.' but got 'filter' in the input at pos 117 : FILTER CONTAINS(?str, "a")
+}

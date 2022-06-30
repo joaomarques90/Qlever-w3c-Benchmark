@@ -1,0 +1,2 @@
+query not answered;reason: {'exception': 'ParseException, cause: Unexpected input: BNODE() AS ?b1) (BNODE() AS ?b2)\nWHERE {}\n', 'query': 'PREFIX : <http://example.org/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT (BNODE() AS ?b1) (BNODE() AS ?b2)\nWHERE {}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 5, 'total': 5}}; details: ParseException, cause: Unexpected input: BNODE() AS ?b1) (BNODE() AS ?b2)
+WHERE {}

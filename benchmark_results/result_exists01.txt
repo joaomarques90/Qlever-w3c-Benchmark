@@ -1,0 +1,2 @@
+query not answered;reason: {'exception': "ParseException, cause: Expected '.' but got 'filter' in the input at pos 64 : filter exists {?s ?p ex:o}\n}\n", 'query': 'prefix ex: <http://www.example.org/>\n\nselect * where {\n?s ?p ?o\nfilter exists {?s ?p ex:o}\n}\n', 'resultsize': 0, 'status': 'ERROR', 'time': {'computeResult': 5, 'total': 5}}; details: ParseException, cause: Expected '.' but got 'filter' in the input at pos 64 : filter exists {?s ?p ex:o}
+}
